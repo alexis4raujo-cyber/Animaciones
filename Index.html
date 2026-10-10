@@ -47,7 +47,7 @@ canvas{display:block;width:100%;height:auto;border-radius:6px}
 </style>
 <div class="wrap">
   <h1>Animaciones de cinemática</h1>
-  <p class="sub">Once problemas de movimiento en dos dimensiones. Elige uno, pulsa Play o arrastra el tiempo.</p>
+  <p class="sub">Doce problemas de movimiento en dos dimensiones. Elige uno, pulsa Play o arrastra el tiempo.</p>
   <div class="nav" id="nav" role="group" aria-label="Problemas"></div>
   <div class="card">
     <h2 id="ptitle"></h2>
@@ -180,7 +180,23 @@ const P=[
   graph(10,350,185,125,'vₓ–t (m/s)',u=>vx,0,25,t,C.coral,Tm);
   graph(195,350,185,125,'v_y–t (m/s)',u=>vy0-g*u,-20,20,t,C.coral,Tm);},
  stats(t){const y=16*t-4.9*t*t;return[['Tiempo',f2(t)+' s'],['Altura y',f1(Math.max(0,y))+' m'],['Distancia x',f1(20*t)+' m'],['v_y',f1(16-9.8*t)+' m/s']];}},
-{id:'p6',name:'6 · Globo',title:'Problema 6 · Globo y piedra',T:6,dur:7,h:330,
+{id:'p6',name:'6 · Moneda',title:'Problema 6 · Gane el premio',T:2.1/3.2,dur:5,h:330,
+ leg:[['amber','moneda'],['blue','componente horizontal vₓ'],['coral','componente vertical v_y']],
+ res:['vₓ = 6.4 cos 60° = 3.20 m/s;  v₀y = 6.4 sen 60° = 5.54 m/s','Tiempo hasta el platito: t = 2.1 / 3.20 = 0.656 s','a) altura de la repisa: y = v₀y·t − ½gt² = 1.53 m','b) v_y = v₀y − gt = −0.888 m/s (la moneda ya va bajando)'],
+ draw(t){const g=9.8,vx=3.2,vy0=5.5426,S=120,ox=40,oy=265,X=x=>ox+x*S,Y=y=>oy-y*S,yS=1.527;
+  ctx.fillStyle=C.line;ctx.fillRect(0,oy+12,380,330-oy-12);L(0,oy+12,380,oy+12,C.muted,1.5);
+  L(ox,oy,X(2.1)+30,oy,C.muted,1,[5,4]);
+  ctx.fillStyle=C.muted;ctx.fillRect(X(2.1)-6,Y(yS)+4,60,6);L(X(2.1)-6,Y(yS)+4,X(2.1)-6,oy+12,C.muted,3);
+  ctx.fillStyle=C.body;ctx.beginPath();ctx.ellipse(X(2.1)+14,Y(yS)-1,18,4,0,0,7);ctx.fill();
+  L(X(2.1)+44,oy,X(2.1)+44,Y(yS)+4,C.fg,1);T('1.53 m',X(2.1)+50,(oy+Y(yS))/2,C.fg,12,500);
+  L(ox,oy+30,X(2.1),oy+30,C.fg,1);T('2.1 m',(ox+X(2.1))/2-14,oy+26,C.fg,12,500);
+  ctx.setLineDash([3,4]);ctx.strokeStyle=C.muted;ctx.lineWidth=1.2;ctx.beginPath();
+  for(let u=0;u<=2.1/vx+.001;u+=.02){const a=X(vx*u),b=Y(vy0*u-.5*g*u*u);u===0?ctx.moveTo(a,b):ctx.lineTo(a,b);}ctx.stroke();ctx.setLineDash([]);
+  const x=vx*t,y=vy0*t-.5*g*t*t,vy=vy0-g*t;
+  A(X(x),Y(y),vx*14,0,C.blue,2.5);A(X(x),Y(y),0,-vy*14,C.coral,2.5);
+  dot(X(x),Y(y),6,C.amber);dot(ox,oy,3,C.fg);T('mano',ox-12,oy+14,C.muted,11);T('6.4 m/s, 60°',ox+6,oy-34,C.fg,12,500);},
+ stats(t){const vy=5.5426-9.8*t,y=5.5426*t-4.9*t*t;return[['Tiempo',f2(t)+' s'],['Altura y',f2(y)+' m'],['Distancia x',f2(3.2*t)+' m'],['v_y',f2(vy)+' m/s']];}},
+{id:'p7',name:'7 · Globo',title:'Problema 7 · Globo y piedra',T:6,dur:7,h:330,
  leg:[['blue','globo y canastilla'],['coral','piedra']],
  res:['a) H = 296 m cuando se lanzó la piedra','b) el globo estaba a 176 m cuando la piedra llegó al suelo','c) distancia piedra–canastilla: 198 m','d) i) desde la canastilla: 15.0 m/s horizontal, 58.8 m/s hacia abajo','d) ii) desde el suelo: 15.0 m/s horizontal, 78.8 m/s hacia abajo'],
  draw(t){const g=9.8,H=296.4,SY=.85,SX=3,x0=50,gy=312,Y=h=>gy-h*SY,hb=H-20*t,hs=Math.max(0,H-20*t-.5*g*t*t),sx=x0+15*t*SX;
@@ -199,7 +215,7 @@ const P=[
   ctx.strokeStyle=C.muted;ctx.lineWidth=1.5;ctx.beginPath();ctx.arc(cx,cy,R,0,7);ctx.stroke();dot(cx,cy,3,C.muted);
   const px=cx+R*Math.cos(th),py=cy-R*Math.sin(th);L(cx,cy,px,py,C.line,1,[3,3]);
   if(aLen>3)A(px,py,-(px-cx)/R*aLen,-(py-cy)/R*aLen,C.coral,2.5);dot(px,py,6,col);},
-{id:'p7',name:'7 · Lavadora',title:'Problema 7 · Lavadora',T:4,dur:8,h:300,
+{id:'p8',name:'8 · Lavadora',title:'Problema 8 · Lavadora',T:4,dur:8,h:300,
  leg:[['blue','punto del tambor'],['coral','aceleración centrípeta']],
  res:['Con a = 4π²R/T², triplicar a exige T′ = T/√3','T′ ≈ 0.577 T: reducir el periodo a 57.7 %','Ejemplo del dibujo: R = 0.25 m, T = 2.00 s'],
  draw(t){const T0=2,T1=2/Math.sqrt(3);
@@ -207,14 +223,14 @@ const P=[
   T('T = 2.00 s',60,235,C.fg,13,500);T('a = a₀',72,255,C.muted,12);T('T/√3 = 1.15 s',224,235,C.fg,13,500);T('a = 3a₀',250,255,C.coral,12,500);},
  stats(t){return[['Tiempo',f2(t)+' s'],['Vueltas con T',f2(t/2)],['Vueltas con T/√3',f2(t*Math.sqrt(3)/2)],['a nueva / a original','3.00']];}}),
 
-{id:'p8',name:'8 · Tierra',title:'Problema 8 · Rotación de la Tierra',T:170,dur:10,h:300,
+{id:'p9',name:'9 · Tierra',title:'Problema 9 · Rotación de la Tierra',T:170,dur:10,h:300,
  leg:[['blue','objeto en el ecuador'],['coral','aceleración radial']],
  res:['a) a_rad = 0.0337 m/s² = 3.44×10⁻³ g','b) a_rad = g con T = 5.07×10³ s ≈ 84.5 min','Rapidez en el ecuador: 464 m/s'],
  draw(t){window.drum(100,140,62,2*Math.PI*t/1440,0,C.blue);window.drum(280,140,62,2*Math.PI*t/84.5,48,C.blue);
   T('Tierra real: T = 24 h',22,235,C.fg,12,500);T('a = 0.0034 g (flecha muy pequeña)',10,255,C.muted,11);T('T = 84.5 min',230,235,C.fg,12,500);T('a = g',262,255,C.coral,12,500);},
  stats(t){return[['Tiempo',Math.round(t)+' min'],['Vueltas, T = 24 h',(t/1440).toFixed(3)],['Vueltas, T = 84.5 min',f2(t/84.5)],['Rapidez en el ecuador','464 m/s']];}},
 
-{id:'p9',name:'9 · Rotor',title:'Problema 9 · Rotor de helicóptero',T:.5,dur:8,h:300,
+{id:'p10',name:'10 · Rotor',title:'Problema 10 · Rotor de helicóptero',T:.5,dur:8,h:300,
  leg:[['blue','velocidad de la punta'],['coral','aceleración radial']],
  res:['a) v = ωR = 196 m/s (ω = 57.6 rad/s)','b) a_rad = ω²R = 1.13×10⁴ m/s² ≈ 1151 g','Animación en cámara lenta'],
  draw(t){const w=550*2*Math.PI/60,th=w*t,cx=190,cy=150,R=110;
@@ -225,7 +241,7 @@ const P=[
   T('v = 196 m/s',10,20,C.blue,13,500);T('a = 1151 g',10,40,C.coral,13,500);T('R = 3.40 m, 550 rpm',10,290,C.muted,11);},
  stats(t){return[['Tiempo (cámara lenta)',f2(t)+' s'],['Vueltas',f2(550/60*t)],['Rapidez de la punta','195.8 m/s'],['a_rad','1151 g']];}},
 
-{id:'p10',name:'10 · Traje g',title:'Problema 10 · Prueba de traje g',T:6,dur:6,h:300,
+{id:'p11',name:'11 · Traje g',title:'Problema 11 · Prueba de traje g',T:6,dur:6,h:300,
  leg:[['blue','voluntario'],['coral','aceleración centrípeta']],
  res:['a) 3.0 g: T = 2π√(R/a) = 3.07 s','b) 10 g: T = 1.68 s','R = 7.0 m'],
  draw(t){const Ta=2*Math.PI*Math.sqrt(7/(3*9.8)),Tb=2*Math.PI*Math.sqrt(7/(10*9.8));
@@ -233,7 +249,7 @@ const P=[
   T('a = 3.0 g',50,243,C.coral,13,500);T('T = 3.07 s',50,262,C.fg,12);T('a = 10 g',240,243,C.coral,13,500);T('T = 1.68 s',240,262,C.fg,12);},
  stats(t){return[['Tiempo',f2(t)+' s'],['Vueltas a 3.0 g',f2(t/3.0659)],['Vueltas a 10 g',f2(t/1.6793)],['Rapidez 3 g / 10 g','14.3 / 26.2 m/s']];}},
 
-{id:'p11',name:'11 · Órbitas',title:'Problema 11 · Tierra y Mercurio',T:365,dur:12,h:330,
+{id:'p12',name:'12 · Órbitas',title:'Problema 12 · Tierra y Mercurio',T:365,dur:12,h:330,
  leg:[['blue','Tierra'],['teal','Mercurio'],['coral','a hacia el Sol (sin escala)']],
  res:['a) Tierra: v = 2.99×10⁴ m/s','b) Tierra: a = 5.95×10⁻³ m/s²','c) Mercurio: v = 4.78×10⁴ m/s','c) Mercurio: a = 3.95×10⁻² m/s²'],
  draw(t){const cx=190,cy=165,RE=140,RM=RE*5.79/15;
