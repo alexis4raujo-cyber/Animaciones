@@ -47,7 +47,7 @@ canvas{display:block;width:100%;height:auto;border-radius:6px}
 </style>
 <div class="wrap">
   <h1>Animaciones de cinemática</h1>
-  <p class="sub">Cinco problemas de movimiento en dos dimensiones. Elige uno, pulsa Play o arrastra el tiempo.</p>
+  <p class="sub">Once problemas de movimiento en dos dimensiones. Elige uno, pulsa Play o arrastra el tiempo.</p>
   <div class="nav" id="nav" role="group" aria-label="Problemas"></div>
   <div class="card">
     <h2 id="ptitle"></h2>
@@ -179,7 +179,70 @@ const P=[
   graph(195,215,185,125,'y–t (m)',u=>vy0*u-.5*g*u*u,0,15,t,C.blue,Tm);
   graph(10,350,185,125,'vₓ–t (m/s)',u=>vx,0,25,t,C.coral,Tm);
   graph(195,350,185,125,'v_y–t (m/s)',u=>vy0-g*u,-20,20,t,C.coral,Tm);},
- stats(t){const y=16*t-4.9*t*t;return[['Tiempo',f2(t)+' s'],['Altura y',f1(Math.max(0,y))+' m'],['Distancia x',f1(20*t)+' m'],['v_y',f1(16-9.8*t)+' m/s']];}}
+ stats(t){const y=16*t-4.9*t*t;return[['Tiempo',f2(t)+' s'],['Altura y',f1(Math.max(0,y))+' m'],['Distancia x',f1(20*t)+' m'],['v_y',f1(16-9.8*t)+' m/s']];}},
+{id:'p6',name:'6 · Globo',title:'Problema 6 · Globo y piedra',T:6,dur:7,h:330,
+ leg:[['blue','globo y canastilla'],['coral','piedra']],
+ res:['a) H = 296 m cuando se lanzó la piedra','b) el globo estaba a 176 m cuando la piedra llegó al suelo','c) distancia piedra–canastilla: 198 m','d) i) desde la canastilla: 15.0 m/s horizontal, 58.8 m/s hacia abajo','d) ii) desde el suelo: 15.0 m/s horizontal, 78.8 m/s hacia abajo'],
+ draw(t){const g=9.8,H=296.4,SY=.85,SX=3,x0=50,gy=312,Y=h=>gy-h*SY,hb=H-20*t,hs=Math.max(0,H-20*t-.5*g*t*t),sx=x0+15*t*SX;
+  ctx.fillStyle=C.line;ctx.fillRect(0,gy,380,330-gy);L(0,gy,380,gy,C.muted,1.5);
+  ctx.setLineDash([3,4]);ctx.strokeStyle=C.coral;ctx.lineWidth=1.5;ctx.beginPath();
+  for(let u=0;u<=t+.001;u+=.05){const X=x0+15*u*SX,y=Y(H-20*u-.5*g*u*u);u===0?ctx.moveTo(X,y):ctx.lineTo(X,y);}ctx.stroke();ctx.setLineDash([]);
+  const by=Y(hb);
+  L(x0-15,by-16,x0-6,by-8,C.muted,1);L(x0+15,by-16,x0+6,by-8,C.muted,1);
+  dot(x0,by-34,22,C.body);ctx.fillStyle=C.amber;ctx.fillRect(x0-7,by-8,14,8);
+  dot(sx,Y(hs),5,C.coral);
+  T('H = 296.4 m',x0+32,Y(H)-20,C.muted,11);T('escala horizontal ampliada',150,gy+14,C.muted,10);
+  if(t>=5.999){L(x0,by,sx,Y(hs),C.fg,1.5,[4,3]);T('198 m',(x0+sx)/2+4,(by+Y(hs))/2-6,C.fg,12,500);}},
+ stats(t){const hb=296.4-20*t,hs=Math.max(0,296.4-20*t-4.9*t*t);return[['Tiempo',f2(t)+' s'],['Altura del globo',f1(hb)+' m'],['Altura de la piedra',f1(hs)+' m'],['Piedra a canastilla',f1(Math.hypot(15*t,4.9*t*t))+' m']];}},
+
+(window.drum=function(cx,cy,R,th,aLen,col){
+  ctx.strokeStyle=C.muted;ctx.lineWidth=1.5;ctx.beginPath();ctx.arc(cx,cy,R,0,7);ctx.stroke();dot(cx,cy,3,C.muted);
+  const px=cx+R*Math.cos(th),py=cy-R*Math.sin(th);L(cx,cy,px,py,C.line,1,[3,3]);
+  if(aLen>3)A(px,py,-(px-cx)/R*aLen,-(py-cy)/R*aLen,C.coral,2.5);dot(px,py,6,col);},
+{id:'p7',name:'7 · Lavadora',title:'Problema 7 · Lavadora',T:4,dur:8,h:300,
+ leg:[['blue','punto del tambor'],['coral','aceleración centrípeta']],
+ res:['Con a = 4π²R/T², triplicar a exige T′ = T/√3','T′ ≈ 0.577 T: reducir el periodo a 57.7 %','Ejemplo del dibujo: R = 0.25 m, T = 2.00 s'],
+ draw(t){const T0=2,T1=2/Math.sqrt(3);
+  window.drum(100,140,62,2*Math.PI*t/T0,14,C.blue);window.drum(280,140,62,2*Math.PI*t/T1,42,C.blue);
+  T('T = 2.00 s',60,235,C.fg,13,500);T('a = a₀',72,255,C.muted,12);T('T/√3 = 1.15 s',224,235,C.fg,13,500);T('a = 3a₀',250,255,C.coral,12,500);},
+ stats(t){return[['Tiempo',f2(t)+' s'],['Vueltas con T',f2(t/2)],['Vueltas con T/√3',f2(t*Math.sqrt(3)/2)],['a nueva / a original','3.00']];}}),
+
+{id:'p8',name:'8 · Tierra',title:'Problema 8 · Rotación de la Tierra',T:170,dur:10,h:300,
+ leg:[['blue','objeto en el ecuador'],['coral','aceleración radial']],
+ res:['a) a_rad = 0.0337 m/s² = 3.44×10⁻³ g','b) a_rad = g con T = 5.07×10³ s ≈ 84.5 min','Rapidez en el ecuador: 464 m/s'],
+ draw(t){window.drum(100,140,62,2*Math.PI*t/1440,0,C.blue);window.drum(280,140,62,2*Math.PI*t/84.5,48,C.blue);
+  T('Tierra real: T = 24 h',22,235,C.fg,12,500);T('a = 0.0034 g (flecha muy pequeña)',10,255,C.muted,11);T('T = 84.5 min',230,235,C.fg,12,500);T('a = g',262,255,C.coral,12,500);},
+ stats(t){return[['Tiempo',Math.round(t)+' min'],['Vueltas, T = 24 h',(t/1440).toFixed(3)],['Vueltas, T = 84.5 min',f2(t/84.5)],['Rapidez en el ecuador','464 m/s']];}},
+
+{id:'p9',name:'9 · Rotor',title:'Problema 9 · Rotor de helicóptero',T:.5,dur:8,h:300,
+ leg:[['blue','velocidad de la punta'],['coral','aceleración radial']],
+ res:['a) v = ωR = 196 m/s (ω = 57.6 rad/s)','b) a_rad = ω²R = 1.13×10⁴ m/s² ≈ 1151 g','Animación en cámara lenta'],
+ draw(t){const w=550*2*Math.PI/60,th=w*t,cx=190,cy=150,R=110;
+  ctx.strokeStyle=C.line;ctx.lineWidth=1;ctx.beginPath();ctx.arc(cx,cy,R,0,7);ctx.stroke();
+  for(let k=0;k<4;k++){const a=th+k*Math.PI/2;L(cx,cy,cx+R*Math.cos(a),cy-R*Math.sin(a),C.body,7);}
+  dot(cx,cy,6,C.fg);const tx=cx+R*Math.cos(th),ty=cy-R*Math.sin(th);
+  A(tx,ty,-Math.sin(th)*50,-Math.cos(th)*50,C.blue,3);A(tx,ty,-Math.cos(th)*45,Math.sin(th)*45,C.coral,3);dot(tx,ty,5,C.amber);
+  T('v = 196 m/s',10,20,C.blue,13,500);T('a = 1151 g',10,40,C.coral,13,500);T('R = 3.40 m, 550 rpm',10,290,C.muted,11);},
+ stats(t){return[['Tiempo (cámara lenta)',f2(t)+' s'],['Vueltas',f2(550/60*t)],['Rapidez de la punta','195.8 m/s'],['a_rad','1151 g']];}},
+
+{id:'p10',name:'10 · Traje g',title:'Problema 10 · Prueba de traje g',T:6,dur:6,h:300,
+ leg:[['blue','voluntario'],['coral','aceleración centrípeta']],
+ res:['a) 3.0 g: T = 2π√(R/a) = 3.07 s','b) 10 g: T = 1.68 s','R = 7.0 m'],
+ draw(t){const Ta=2*Math.PI*Math.sqrt(7/(3*9.8)),Tb=2*Math.PI*Math.sqrt(7/(10*9.8));
+  window.drum(95,140,70,2*Math.PI*t/Ta,18,C.blue);window.drum(285,140,70,2*Math.PI*t/Tb,60,C.blue);
+  T('a = 3.0 g',50,243,C.coral,13,500);T('T = 3.07 s',50,262,C.fg,12);T('a = 10 g',240,243,C.coral,13,500);T('T = 1.68 s',240,262,C.fg,12);},
+ stats(t){return[['Tiempo',f2(t)+' s'],['Vueltas a 3.0 g',f2(t/3.0659)],['Vueltas a 10 g',f2(t/1.6793)],['Rapidez 3 g / 10 g','14.3 / 26.2 m/s']];}},
+
+{id:'p11',name:'11 · Órbitas',title:'Problema 11 · Tierra y Mercurio',T:365,dur:12,h:330,
+ leg:[['blue','Tierra'],['teal','Mercurio'],['coral','a hacia el Sol (sin escala)']],
+ res:['a) Tierra: v = 2.99×10⁴ m/s','b) Tierra: a = 5.95×10⁻³ m/s²','c) Mercurio: v = 4.78×10⁴ m/s','c) Mercurio: a = 3.95×10⁻² m/s²'],
+ draw(t){const cx=190,cy=165,RE=140,RM=RE*5.79/15;
+  ctx.strokeStyle=C.line;ctx.lineWidth=1;[RE,RM].forEach(r=>{ctx.beginPath();ctx.arc(cx,cy,r,0,7);ctx.stroke();});
+  dot(cx,cy,9,C.amber);
+  [[RE,365,C.blue,29.9,'Tierra'],[RM,88,C.teal,47.8,'Mercurio']].forEach(o=>{const th=2*Math.PI*t/o[1],px=cx+o[0]*Math.cos(th),py=cy-o[0]*Math.sin(th);
+   A(px,py,-Math.sin(th)*o[3]*1.1,-Math.cos(th)*o[3]*1.1,o[2],2.5);A(px,py,-Math.cos(th)*20,Math.sin(th)*20,C.coral,2);dot(px,py,6,o[2]);
+   T(o[4],px+8,py-8,C.fg,11,500);});},
+ stats(t){return[['Día',String(Math.round(t))],['Vueltas de la Tierra',f2(t/365)],['Vueltas de Mercurio',f2(t/88)],['Rapidez Tierra / Mercurio','29.9 / 47.8 km/s']];}},
 ];
 
 const navEl=document.getElementById('nav'),slider=document.getElementById('slider'),playBtn=document.getElementById('play');
